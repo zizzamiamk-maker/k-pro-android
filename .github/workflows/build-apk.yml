@@ -1,0 +1,27 @@
+name: Build K Pro APK
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Unzip project
+        run: |
+          mkdir extracted
+          unzip *.zip -d extracted
+          find extracted -name "settings.gradle"
+
+      - name: Find project folder
+        run: |
+          PROJECT_DIR=$(dirname $(find extracted -name "settings.gradle" | head -n 1))
+          echo "PROJECT_DIR=$PROJECT_DIR" >> $GITHUB_ENV
+
+      - name
